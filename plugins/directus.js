@@ -1,9 +1,11 @@
-import { createDirectus, rest, readItem, readItems } from '@directus/sdk'
-
-const directus = createDirectus(import.meta.env.API_URL).with(rest())
+import { Directus } from '@directus/sdk'
 
 export default defineNuxtPlugin(() => {
+  const directus = new Directus(process.env.NUXT_PUBLIC_DIRECTUS_URL)
   return {
-    provide: { directus, readItem, readItems },
+    provide: {
+      directus
+    }
   }
 })
+
