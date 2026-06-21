@@ -1,8 +1,8 @@
 /// <reference types="vite/client" />
 interface ImportMetaEnv {
-  readonly API_URL: string;
+  readonly NUXT_PUBLIC_DIRECTUS_URL: string
 }
 
 interface ImportMeta {
-  readonly env: ImportMetaEnv;
+  readonly env: ImportMetaEnv
 }
