@@ -10,7 +10,6 @@ const config = useRuntimeConfig()
 
 const imageUrl = computed(() => {
   if (!props.hero?.hero_background_image) return ''
-
   return `${config.public.directusUrl}/assets/${props.hero.hero_background_image}`
 })
 </script>
@@ -38,7 +37,6 @@ const imageUrl = computed(() => {
 </template> 
 
 <style scoped>
-/* hero section */
 .hero {
   height: 100vh;
   top: 0;

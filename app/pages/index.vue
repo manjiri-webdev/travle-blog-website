@@ -1,28 +1,31 @@
 <script setup>
-const { $directus, $readSingleton } = useNuxtApp()
+import Hero from '~/components/Hero.vue'
+import Services from '~/components/Services.vue'
 
-const { data: homepage, error } = await useAsyncData('homepage', async () => {
-  try {
-    const result = await $directus.request($readSingleton('homepage'))
-    console.log('API result:', result)
-    return result
-  } catch (err) {
-    console.log('caught error:', err)
-    return null
-  }
-}, {
-  server: false   // ← force client-side only fetch
-})
+const { $directus, $readItem } = useNuxtApp()
 
-console.log('homepage:', homepage.value)
-console.log('error:', error.value)
+const { data: homepage, error } = await useAsyncData('homepage', () =>
+  $directus.request(
+    $readItem('homepage', 1, {
+      fields: [
+        '*',
+        'service_cards.id',
+        'service_cards.title',
+        'service_cards.description',
+        'service_cards.image',
+        'service_cards.offer_text',
+        'service_cards.button_text',
+        'service_cards.button_link'
+      ]
+    })
+  )
+)
 </script>
 
 <template>
-  <div v-if="homepage">
-    <Hero :hero="homepage" />
-  </div>
-  <div v-else>
-    <p>Loading hero section...</p>
-  </div>
+  <main>
+    <Hero v-if="homepage" :hero="homepage" />
+    <Services v-if="homepage?.service_cards?.length" :services="homepage" />
+    <pre v-if="error">Error: {{ error }}</pre>
+  </main>
 </template>
