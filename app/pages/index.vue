@@ -1,8 +1,9 @@
 <script setup>
 import Hero from '~/components/Hero.vue'
 import Services from '~/components/Services.vue'
+import RecentBlogs from '~/components/RecentBlogs.vue'
 
-const { $directus, $readItem } = useNuxtApp()
+const { $directus, $readItem, $readItems} = useNuxtApp()
 
 const { data: homepage, error } = await useAsyncData('homepage', () =>
   $directus.request(
@@ -15,8 +16,28 @@ const { data: homepage, error } = await useAsyncData('homepage', () =>
         'service_cards.image',
         'service_cards.offer_text',
         'service_cards.button_text',
-        'service_cards.button_link'
+        'service_cards.button_link',
+        'recent_blog_title',
+        'recent_blog_description'
       ]
+    })
+  )
+)
+
+const { data: blogs, error: blogsError } = await useAsyncData('blogs', () =>
+  $directus.request(
+    $readItems('blog', {
+      fields: [
+        'id',
+        'title',
+        'quote',
+        'cover_image',
+        'author_name',
+        'author_image',
+        'published_date'
+      ],
+      sort: ['-published_date'],
+      limit: 3
     })
   )
 )
@@ -26,6 +47,12 @@ const { data: homepage, error } = await useAsyncData('homepage', () =>
   <main>
     <Hero v-if="homepage" :hero="homepage" />
     <Services v-if="homepage?.service_cards?.length" :services="homepage" />
-    <pre v-if="error">Error: {{ error }}</pre>
+    <RecentBlogs
+      v-if="homepage && blogs?.length"
+      :homepage="homepage"
+      :blogs="blogs"
+    />
+    <pre v-if="homepageError">Homepage Error: {{ homepageError }}</pre>
+    <pre v-if="blogsError">Blogs Error: {{ blogsError }}</pre>
   </main>
 </template>
