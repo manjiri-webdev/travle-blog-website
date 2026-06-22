@@ -12,6 +12,7 @@
   "dependencies": {
     "@directus/sdk": "^22.0.0",
     "nuxt": "^4.4.8",
+    "pg": "^8.22.0",
     "vue": "^3.5.35",
     "vue-router": "^5.1.0"
   },

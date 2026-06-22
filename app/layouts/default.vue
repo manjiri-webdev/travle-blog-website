@@ -4,9 +4,10 @@ import Footer from '~/components/Footer.vue'
 
 const { $directus, $readSingle } = useNuxtApp()
 
+// Fetch nav_and_footer singleton
 const { data: navFooter } = await useAsyncData('navFooter', () =>
   $directus.request(
-    $readItem('nav_and_footer', 1, {
+    $readItem('nav_and_footer', {
       fields: [
         'site_name',
         'logo',
