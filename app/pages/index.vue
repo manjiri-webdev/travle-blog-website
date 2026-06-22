@@ -3,6 +3,7 @@ import { readItem, readItems } from '@directus/sdk'
 import Hero from '~/components/Hero.vue'
 import Services from '~/components/Services.vue'
 import RecentBlogs from '~/components/RecentBlogs.vue'
+import QuickBooking from '~/components/QuickBooking.vue'
 
 const { $directus, $readItem, $readItems} = useNuxtApp()
 
@@ -47,6 +48,7 @@ const { data: blogs, error: blogsError } = await useAsyncData('blogs', () =>
 <template>
   <main>
     <Hero v-if="homepage" :hero="homepage" />
+    <QuickBooking />
     <Services v-if="homepage?.service_cards?.length" :services="homepage" />
     <RecentBlogs
       v-if="homepage && blogs?.length"
