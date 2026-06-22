@@ -1,4 +1,5 @@
-import { createDirectus, rest, readSingleton } from '@directus/sdk'
+import { createDirectus, rest, readSingleton,  readItem,
+  readItems } from '@directus/sdk'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
@@ -12,7 +13,9 @@ export default defineNuxtPlugin(() => {
     provide: {
       directus,
       readSingleton,
-      getFileUrl
+      getFileUrl,
+      readItem,
+      readItems
     }
   }
 })

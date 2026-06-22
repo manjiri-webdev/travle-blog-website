@@ -1,11 +1,12 @@
 <script setup>
+import { readItem, readItems } from '@directus/sdk'
 import Hero from '~/components/Hero.vue'
 import Services from '~/components/Services.vue'
 import RecentBlogs from '~/components/RecentBlogs.vue'
 
 const { $directus, $readItem, $readItems} = useNuxtApp()
 
-const { data: homepage, error } = await useAsyncData('homepage', () =>
+const { data: homepage, error:homepageError } = await useAsyncData('homepage', () =>
   $directus.request(
     $readItem('homepage', 1, {
       fields: [

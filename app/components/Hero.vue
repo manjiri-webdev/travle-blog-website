@@ -31,7 +31,7 @@ const imageUrl = computed(() => {
           {{ hero.hero_button_text }}
         </button>
       </NuxtLink>
-      <p>{{ imageUrl }}</p>
+      
     </div>
   </section>
 </template> 
