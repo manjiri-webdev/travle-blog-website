@@ -6,30 +6,27 @@ const props = defineProps({
   }
 })
 
-const travelers = ['1 Traveler', '2 Travelers', '3 Travelers', '4 Travelers', '5+ Travelers']
+const { $directus, $readItems } = useNuxtApp()
+const config = useRuntimeConfig()
+
+const { data: pickupLocations } = await useAsyncData('pickup-locations', () =>
+  $directus.request(
+    $readItems('pickup_locations', {
+      fields: ['id', 'location_name'],
+      filter: {
+        homepage_id: { _eq: 1 }
+      }
+    })
+  )
+)
 
 const form = reactive({
-  checkIn: '',
-  checkOut: '',
-  travelers: ''
+  pickup_location: '',
+  date: '',
+  mobile: ''
 })
 
-const status = ref('')
-const loading = ref(false)
-
 const today = computed(() => new Date().toISOString().split('T')[0])
-
-async function handleBooking() {
-  if (!form.checkIn || !form.checkOut || !form.travelers) {
-    status.value = 'error'
-    return
-  }
-  loading.value = true
-  status.value = ''
-  await new Promise(r => setTimeout(r, 1200))
-  loading.value = false
-  status.value = 'success'
-}
 </script>
 
 <template>
@@ -43,41 +40,40 @@ async function handleBooking() {
 
       <div class="booking-right">
 
-        <div class="booking-row two-col">
-          <input
-            v-model="form.checkIn"
-            type="date"
-            class="booking-input"
-            :min="today"
-          />
-          <input
-            v-model="form.checkOut"
-            type="date"
-            class="booking-input"
-            :min="form.checkIn || today"
-          />
-        </div>
-
         <div class="booking-row">
-          <select v-model="form.travelers" class="booking-select">
-            <option value="" disabled>Number of Travelers</option>
-            <option v-for="t in travelers" :key="t" :value="t">{{ t }}</option>
+          <select v-model="form.pickup_location" class="booking-select">
+            <option value="" disabled>Enter your pickup location</option>
+            <option
+              v-for="loc in pickupLocations"
+              :key="loc.id"
+              :value="loc.location_name"
+            >
+              {{ loc.location_name }}
+            </option>
           </select>
         </div>
 
-        <div class="booking-row">
-          <button class="booking-btn" :disabled="loading" @click="handleBooking">
-            {{ loading ? 'Booking...' : booking.booking_button_text || 'Book Now' }}
-          </button>
+        <div class="booking-row two-col">
+          <input
+            v-model="form.date"
+            type="date"
+            class="booking-input"
+            :min="today"
+            placeholder="Select date"
+          />
+          <input
+            v-model="form.mobile"
+            type="tel"
+            class="booking-input"
+            placeholder="Mobile number"
+          />
         </div>
 
-        <p v-if="status === 'success'" class="booking-success">
-          ✓ Booking request sent! We'll reach out shortly.
-        </p>
-        <p v-if="status === 'error'" class="booking-error">
-          Please fill in all fields before booking.
-        </p>
-
+        <div class="booking-row">
+          <button class="booking-btn">
+            {{ booking.booking_button_text || 'Book Now' }}
+          </button>
+        </div>
       </div>
     </div>
   </section>
