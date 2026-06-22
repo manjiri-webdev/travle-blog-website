@@ -1,21 +1,14 @@
 <script setup>
-const destinations = [
-  'Bali, Indonesia',
-  'Paris, France',
-  'Santorini, Greece',
-  'Tokyo, Japan',
-  'New York, USA',
-  'Cape Town, South Africa',
-  'Maldives',
-  'Dubai, UAE',
-  'Rome, Italy',
-  'Bangkok, Thailand'
-]
+const props = defineProps({
+  booking: {
+    type: Object,
+    required: true
+  }
+})
 
-const travelerOptions = ['1 Traveler', '2 Travelers', '3 Travelers', '4 Travelers', '5+ Travelers']
+const travelers = ['1 Traveler', '2 Travelers', '3 Travelers', '4 Travelers', '5+ Travelers']
 
 const form = reactive({
-  destination: '',
   checkIn: '',
   checkOut: '',
   travelers: ''
@@ -27,7 +20,7 @@ const loading = ref(false)
 const today = computed(() => new Date().toISOString().split('T')[0])
 
 async function handleBooking() {
-  if (!form.destination || !form.checkIn || !form.checkOut || !form.travelers) {
+  if (!form.checkIn || !form.checkOut || !form.travelers) {
     status.value = 'error'
     return
   }
@@ -44,18 +37,11 @@ async function handleBooking() {
     <div class="booking-inner">
 
       <div class="booking-left">
-        <h2>Quick Booking</h2>
-        <p>Plan your next adventure in seconds. Choose a destination, pick your dates, and let us handle the rest.</p>
+        <h2>{{ booking.booking_title }}</h2>
+        <p>{{ booking.booking_description }}</p>
       </div>
 
       <div class="booking-right">
-
-        <div class="booking-row">
-          <select v-model="form.destination" class="booking-select">
-            <option value="" disabled>Select Destination</option>
-            <option v-for="d in destinations" :key="d" :value="d">{{ d }}</option>
-          </select>
-        </div>
 
         <div class="booking-row two-col">
           <input
@@ -75,13 +61,13 @@ async function handleBooking() {
         <div class="booking-row">
           <select v-model="form.travelers" class="booking-select">
             <option value="" disabled>Number of Travelers</option>
-            <option v-for="t in travelerOptions" :key="t" :value="t">{{ t }}</option>
+            <option v-for="t in travelers" :key="t" :value="t">{{ t }}</option>
           </select>
         </div>
 
         <div class="booking-row">
           <button class="booking-btn" :disabled="loading" @click="handleBooking">
-            {{ loading ? 'Booking...' : 'Book Now' }}
+            {{ loading ? 'Booking...' : booking.booking_button_text || 'Book Now' }}
           </button>
         </div>
 

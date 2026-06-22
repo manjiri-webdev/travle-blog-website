@@ -20,7 +20,10 @@ const { data: homepage, error:homepageError } = await useAsyncData('homepage', (
         'service_cards.button_text',
         'service_cards.button_link',
         'recent_blog_title',
-        'recent_blog_description'
+        'recent_blog_description',
+        'booking_title',
+        'booking_description',
+        'booking_button_text'
       ]
     })
   )
@@ -48,7 +51,7 @@ const { data: blogs, error: blogsError } = await useAsyncData('blogs', () =>
 <template>
   <main>
     <Hero v-if="homepage" :hero="homepage" />
-    <QuickBooking />
+    <QuickBooking v-if="homepage" :booking="homepage" />
     <Services v-if="homepage?.service_cards?.length" :services="homepage" />
     <RecentBlogs
       v-if="homepage && blogs?.length"
