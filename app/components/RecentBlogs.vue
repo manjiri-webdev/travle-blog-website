@@ -25,7 +25,7 @@ const getImageUrl = (id) => id ? `${config.public.directusUrl}/assets/${id}` : '
       </NuxtLink>
     </div>
 
-    <div class="blog-cards">
+    <div class="blogs-cards">
       <article v-for="blog in blogs" :key="blog.id" class="blog-card">
         <img v-if="blog.cover_image" :src="getImageUrl(blog.cover_image)" class="card-image" />
 
