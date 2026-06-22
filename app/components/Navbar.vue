@@ -29,4 +29,3 @@ const getImageUrl = (id) => id ? `${config.public.directusUrl}/assets/${id}` : '
     </div>
   </nav>
 </template>
-
