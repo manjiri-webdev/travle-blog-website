@@ -552,6 +552,19 @@ html { scroll-behavior: smooth; }
   gap: 1rem;
   align-items: center;
 }
+
+.social-item {
+  color: #fff; 
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.social-item:hover {
+  color: #ccc;
+}
+
 .icon {
   width: 24px;
   height: 24px;

@@ -2,9 +2,9 @@
 import Navbar from '~/components/Navbar.vue'
 import Footer from '~/components/Footer.vue'
 
-const { $directus, $readSingle } = useNuxtApp()
+const { $directus, $readItem } = useNuxtApp()
 
-const { data: navFooter, error } = await useAsyncData('navFooter', () =>
+const { data: navFooter, error: navError, pending } = await useAsyncData('navFooter', () =>
   $directus.request(
     $readItem('nav_and_footer', 1, {
       fields: [
@@ -33,6 +33,7 @@ const { data: navFooter, error } = await useAsyncData('navFooter', () =>
     <NuxtPage />
     <Footer v-if="navFooter" :footer="navFooter" />
 
-    <pre v-if="error">Nav/Footer Error: {{ error }}</pre>
+    <pre v-if="navError">Nav/Footer Error: {{ navError }}</pre>
+    <pre v-if="pending">Loading nav/footer…</pre>
   </div>
 </template>
