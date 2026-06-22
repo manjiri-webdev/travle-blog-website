@@ -56,8 +56,8 @@ const { data: blogs, error: blogsError } = await useAsyncData('blogs', () =>
 <template>
   <main>
     <Hero v-if="homepage" :hero="homepage" />
-    <QuickBooking v-if="homepage" :booking="homepage" />
     <Services v-if="homepage?.service_cards?.length" :services="homepage" />
+    <QuickBooking v-if="homepage" :booking="homepage" />
     <RecentBlogs v-if="homepage && blogs?.length" :homepage="homepage" :blogs="blogs" />
     <Testimonials v-if="homepage?.testimonials?.length" :homepage="homepage" :testimonials="homepage.testimonials" />
     
